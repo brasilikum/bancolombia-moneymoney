@@ -18,19 +18,20 @@ function ReadTransactions (account)
             table.insert(values, value)
         end
         if #values >= 4 then
-        
-        print(values[1], "-", values[2], "-", values[3], "-", values[4], "-", values[5])
-        local amountString = values[5]:gsub(",", "")
-        local transaction = {
-            bookingDate = strToDate(values[1]),
-            -- values[2] is empty
-            name = values[3],
-            purpose = values[4],
-            amount = tonumber(amountString),--tonumber gets confused by commas
-            currency = "COP"
-        }
-        print(tonumber(values[5]))
-        table.insert(transactions, transaction)
+            
+            print(values[1], "-", values[2], "-", values[#values-1])
+            -- the description might have tabs, just grab the last value as amount
+            local amountString = values[#values-1]:gsub(",", "") 
+            local transaction = {
+                bookingDate = strToDate(values[1]),
+                -- values[2] is empty
+                name = values[3],
+                purpose = values[4],
+                amount = tonumber(amountString),--tonumber gets confused by commas
+                currency = "COP"
+            }
+            print(tonumber(values[5]))
+            table.insert(transactions, transaction)
         end
     end
     linecount = linecount + 1
